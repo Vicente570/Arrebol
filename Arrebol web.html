@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARREBOL | Geles de Montaña</title>
+    
+    <!-- Tipografías: Oswald para impacto deportivo, Inter para lectura -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            var(--bg-base): #0a0b10;
+            --arrebol-purple: #9d4edd;
+            --ice-blue: #00b4d8;
+            --text-main: #ffffff;
+            --text-secondary: #8b92a5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0b10;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden; /* Evita scroll por las luces en movimiento */
+        }
+
+        /* Animaciones para los destellos */
+        @keyframes floatIce {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+            33% { transform: translate(15vw, -10vh) scale(1.3); opacity: 0.7; }
+            66% { transform: translate(-5vw, -20vh) scale(0.9); opacity: 0.5; }
+            100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+        }
+
+        @keyframes pulseArrebol {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(-5vw, 5vh) scale(1.1); opacity: 0.5; }
+            100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+        }
+
+        /* Luces de fondo en movimiento */
+        .glow-arrebol {
+            position: fixed;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.3) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            filter: blur(50px);
+            animation: pulseArrebol 10s ease-in-out infinite alternate;
+        }
+
+        .glow-ice {
+            position: fixed;
+            bottom: -20%;
+            left: -10%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(0, 180, 216, 0.35) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            filter: blur(50px);
+            animation: floatIce 15s ease-in-out infinite;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .product-showcase {
+            width: 140px;
+            height: 180px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .product-showcase img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 14px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--arrebol-purple), var(--ice-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .links-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .link-item:hover {
+            background-color: rgba(255, 255, 255, 0.06);
+            border-color: var(--ice-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 180, 216, 0.15);
+        }
+
+        .link-icon {
+            width: 40px;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+
+        .link-item:hover .link-icon {
+            color: var(--ice-blue);
+        }
+
+        .link-text {
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+            margin-top: 35px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-val {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .stat-unit {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 3px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: #4a4d55;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        /* ESTILOS DEL POP-UP (MODAL) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 11, 16, 0.85); /* Fondo oscuro semitransparente */
+            backdrop-filter: blur(8px); /* Efecto difuminado */
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: #0f111a;
+            border: 1px solid rgba(0, 180, 216, 0.3);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 420px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px 25px;
+            position: relative;
+            transform: translateY(30px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 20px rgba(0, 180, 216, 0.1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        /* Scrollbar personalizado para el modal */
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: rgba(0, 180, 216, 0.3);
+            border-radius: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: var(--ice-blue);
+            color: #000;
+            border-color: var(--ice-blue);
+        }
+
+        .modal-title {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-main);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            padding-right: 20px;
+        }
+
+        .modal-intro {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            color: var(--ice-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin: 25px 0 15px 0;
+            border-bottom: 1px solid rgba(0, 180, 216, 0.2);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-list {
+            list-style: none;
+        }
+
+        .modal-list li {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            line-height: 1.5;
+            position: relative;
+            padding-left: 18px;
+        }
+
+        .modal-list li::before {
+            content: '▹';
+            color: var(--arrebol-purple);
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: bold;
+        }
+
+        .modal-list strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-arrebol"></div>
+    <div class="glow-ice"></div>
+    
+    <div class="container">
+        <div class="product-showcase">
+            <img src="Gel%20foto%20venta.jpg" alt="Gel Arrebol Patagonia">
+        </div>
+
+        <div class="header">
+            <h1 class="title">ARREBOL</h1>
+            <div class="subtitle">Geles de montaña - patagonia</div>
+        </div>
+
+        <div class="links-container">
+            <a href="https://wa.me/tunumerodewhatsapp" class="link-item">
+                <i class="fa-brands fa-whatsapp link-icon"></i>
+                <span class="link-text">Hacer pedido rápido</span>
+            </a>
+            
+            <!-- Botón modificado para abrir el modal -->
+            <a href="#" id="btnOpenModal" class="link-item">
+                <i class="fa-solid fa-bolt link-icon"></i>
+                <span class="link-text">¿Por qué Arrebol?</span>
+            </a>
+            
+            <a href="URL_INSTAGRAM" class="link-item">
+                <i class="fa-brands fa-instagram link-icon"></i>
+                <span class="link-text">Comunidad en Instagram</span>
+            </a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-val">175<span class="stat-unit">kcal</span></div>
+                <div class="stat-label">Energía</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-val">44<span class="stat-unit">g</span></div>
+                <div class="stat-label">Carbohidratos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-val">500<span class="stat-unit">mg</span></div>
+                <div class="stat-label">Potasio</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            PATAGONIA • 51°S
+        </div>
+    </div>
+
+    <!-- ESTRUCTURA DEL POP-UP (MODAL) -->
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModalBtn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <h2 class="modal-title">GEL ENERGÉTICO 100% NATURAL</h2>
+            <p class="modal-intro">
+                Combustible de alto rendimiento formulado con ingredientes reales y de fácil digestión, diseñado para deportistas de resistencia que buscan potencia limpia sin químicos pesados ni malestares estomacales.
+            </p>
+
+            <div class="section-title">
+                <i class="fa-solid fa-flask"></i> Especificaciones Técnicas
+            </div>
+            <ul class="modal-list">
+                <li><strong>Contenido neto:</strong> 70 g por sachet.</li>
+                <li><strong>Aporte energético:</strong> 44 g de carbohidratos de asimilación mas eficiente para una energía rápida y sostenida.</li>
+                <li><strong>Electrolitos reales:</strong> Incorpora potasio y sodio para una óptima reposición mineral y prevención de calambres 40%.</li>
+                <li><strong>Sabor 100% natural:</strong> Saborizado con miel y Arandanos reales, libre de colorantes y aditivos artificiales.</li>
+            </ul>
+
+            <div class="section-title">
+                <i class="fa-solid fa-route"></i> Recomendaciones de Uso
+            </div>
+            <ul class="modal-list">
+                <li>Consumir de 1 a 2 geles por hora durante entrenamientos o competencias de alta intensidad (running, trail, ciclismo).</li>
+                <li>Acompañar con pequeños sorbos de agua para favorecer la absorción gástrica.</li>
+                <li>Almacenar en el refri o freezer.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT PARA EL FUNCIONAMIENTO DEL POP-UP -->
+    <script>
+        const btnOpenModal = document.getElementById('btnOpenModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modal = document.getElementById('infoModal');
+
+        // Función para abrir el modal
+        btnOpenModal.addEventListener('click', function(e) {
+            e.preventDefault(); // Evita que la página salte hacia arriba
+            modal.classList.add('active');
+        });
+
+        // Función para cerrar con el botón X
+        closeModalBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+
+        // Función para cerrar haciendo clic en el fondo oscuro
+        modal.addEventListener('click', function(e) {
+            // Si el clic fue exactamente en el fondo (y no dentro del cuadro de texto)
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
