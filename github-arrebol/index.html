@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="Arrebol · Geles de montaña">
+<meta property="og:description" content="Geles energéticos de montaña hechos en Chile. Línea R para competir, línea T para entrenar.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<style>:root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Arrebol</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Geles energéticos de montaña hechos en Chile. Línea R para competir, línea T para entrenar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/hero-sticks.webp">
+<style>
+/* Layout: una subida. El scroll es desnivel: un video que se recorre con el dedo,
+   cuatro tramos de sabor a todo color, y un perfil de altimetría para explicar el uso. */
+:root{
+  color-scheme: dark;
+  --void:#000000;
+  --ink:#0b0908;
+  --ink-2:#16120f;
+  --bone:#f1ede7;
+  --ash:#9a938e;
+  --rule:rgba(241,237,231,.14);
+  --arrebol:#e82838;
+  --cool:#5068b8;
+  --miel:#875b0d;
+  --miel-hi:#f8c31f;
+  --miel-line:#f0d3b4;
+  --nieve:#efefed;
+  --nieve-ink:#0b0908;
+
+  --f-display:"Archivo","Arial Black",Impact,system-ui,sans-serif;
+  --f-serif:"Young Serif",Georgia,"Times New Roman",serif;
+  --f-body:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+
+  --s--1:clamp(.78rem,.74rem + .2vw,.88rem);
+  --s-0:clamp(1rem,.96rem + .22vw,1.13rem);
+  --s-1:clamp(1.2rem,1.08rem + .6vw,1.55rem);
+  --s-2:clamp(1.6rem,1.25rem + 1.7vw,2.7rem);
+  --s-3:clamp(2.1rem,1.4rem + 3.4vw,4.4rem);
+  --s-4:clamp(2.8rem,1.4rem + 7vw,8.6rem);
+
+  --gut-l:max(clamp(16px,4.5vw,64px), env(safe-area-inset-left,0px));
+  --gut-r:max(clamp(16px,4.5vw,64px), env(safe-area-inset-right,0px));
+}
+html,body{background:var(--ink);color:var(--bone)}
+body{font-family:var(--f-body);font-size:var(--s-0);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+*{box-sizing:border-box}
+h1,h2,h3,p,figure,dl,dd{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--arrebol);outline-offset:3px;border-radius:4px}
+.wrap{padding-left:var(--gut-l);padding-right:var(--gut-r)}
+.eyebrow{font-size:var(--s--1);font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
+.mark{font-family:var(--f-display);font-weight:900;font-stretch:125%;text-transform:uppercase;letter-spacing:-.005em;line-height:1}
+
+/* ---------- Barra superior ---------- */
+.top{position:fixed;inset:0 0 auto;z-index:30;display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding-top:calc(env(safe-area-inset-top,0px) + 12px);padding-bottom:12px;padding-left:var(--gut-l);padding-right:var(--gut-r);pointer-events:none}
+.top > *{pointer-events:auto}
+.chip{display:flex;align-items:center;gap:14px;background:rgba(11,9,8,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border:1px solid var(--rule);border-radius:999px;padding:8px 8px 8px 16px}
+.chip .mark{font-size:15px;text-decoration:none}
+.dplus{font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--ash);font-variant-numeric:tabular-nums;padding-right:8px;white-space:nowrap}
+.dplus b{color:var(--bone);font-weight:700}
+.nav{display:flex;align-items:center;gap:4px;padding:6px}
+.nav a{text-decoration:none;font-size:14px;font-weight:600;padding:7px 12px;border-radius:999px;color:var(--bone)}
+.nav a:hover{background:rgba(241,237,231,.1)}
+.nav a.go{background:var(--bone);color:var(--ink)}
+.nav a.go:hover{background:#fff}
+@media (max-width:640px){.nav a:not(.go){display:none}.chip{gap:10px;padding-left:14px}}
+
+/* ---------- Hero: video que se recorre con el scroll ---------- */
+#subida{position:relative;height:240vh;background:var(--void)}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--void)}
+.shade{position:absolute;left:0;right:0;bottom:0;height:52%;background:linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,.82));pointer-events:none;z-index:0}
+.hero-art{position:absolute;inset:0;z-index:1;display:grid;place-items:center;perspective:1400px;pointer-events:none}
+.glow{position:absolute;width:min(95vmin,900px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(80,104,184,.34),rgba(80,104,184,.08) 55%,rgba(80,104,184,0) 75%);transform:translateX(var(--gx,0))}
+.float{animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(-1.4%)}50%{transform:translateY(1.4%)}}
+.tilt{position:relative;width:min(68vmin,720px);transform-style:preserve-3d;will-change:transform}
+.sticks{display:block;width:100%;height:auto;max-width:100%}
+.sheen{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
+  -webkit-mask:url(img/hero-sticks.webp) center/100% 100% no-repeat;mask:url(img/hero-sticks.webp) center/100% 100% no-repeat;
+  background:linear-gradient(105deg,rgba(255,255,255,0) 40%,rgba(255,255,255,.5) 50%,rgba(255,255,255,0) 60%) var(--sheen,135%) 0/260% 100% no-repeat}
+.beat{position:absolute;z-index:2;will-change:opacity,transform}
+.b1{z-index:0}
+@media (max-aspect-ratio:1/1){
+  .hero-art{place-items:start center;padding-top:calc(env(safe-area-inset-top,0px) + 12vh)}
+  .tilt{width:min(84vw,440px)}
+  .glow{top:calc(12vh - 10vw)}
+}
+@media (prefers-reduced-motion:reduce){.float{animation:none}}
+.beat h2{font-family:var(--f-display);font-weight:800;font-stretch:112%;font-size:var(--s-3);line-height:.98;letter-spacing:-.015em;text-wrap:balance;margin-top:14px}
+.beat p{max-width:36ch;color:rgba(241,237,231,.82);margin-top:16px}
+.b1{left:var(--gut-l);right:var(--gut-r);bottom:calc(env(safe-area-inset-bottom,0px) + 5vh)}
+.giant{font-size:14.2vw;line-height:.8;letter-spacing:-.02em;margin-left:-.04em}
+.b1 .row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 32px;margin-top:22px}
+.b1 .tagline{font-size:var(--s-1);font-weight:500;max-width:28ch;line-height:1.3}
+.cue{display:flex;align-items:center;gap:12px;font-size:var(--s--1);font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
+.cue i{display:block;width:1px;height:38px;background:linear-gradient(var(--bone),transparent);animation:drip 2.2s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(.2);transform-origin:bottom}}
+.side-l{left:var(--gut-l);top:50%;translate:0 -50%;max-width:min(40vw,560px)}
+.side-r{right:var(--gut-r);top:50%;translate:0 -50%;max-width:min(40vw,560px)}
+.beat .btn{margin-top:26px}
+.b2,.b3,.b4{opacity:0}
+@media (max-aspect-ratio:1/1){
+  .side-l,.side-r{left:var(--gut-l);right:var(--gut-r);top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 7vh);translate:none;max-width:none}
+  .giant{font-size:15.5vw}
+}
+
+.btn{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:var(--s-0);text-decoration:none;border-radius:999px;padding:14px 22px;
+  background:var(--bone);color:var(--ink);border:1px solid var(--bone);transition:transform .2s ease,background .2s ease}
+.btn:hover{transform:translateY(-2px);background:#fff}
+.btn.ghost{background:transparent;color:var(--bone);border-color:rgba(241,237,231,.4)}
+.btn.ghost:hover{background:rgba(241,237,231,.08)}
+.btn svg{width:18px;height:18px;flex:none}
+
+/* ---------- Manifiesto ---------- */
+#hecho{background:var(--ink);padding-block:clamp(96px,16vh,200px)}
+.manifest{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.4fr);gap:clamp(28px,5vw,96px);align-items:start}
+.entry{border-top:1px solid var(--rule);padding-top:16px;font-size:var(--s--1);color:var(--ash);line-height:1.5;max-width:32ch}
+.entry b{display:block;font-family:var(--f-serif);font-weight:400;font-size:var(--s-2);color:var(--bone);line-height:1.1;margin-bottom:6px;letter-spacing:0}
+.entry i{font-style:italic}
+.says{font-family:var(--f-display);font-weight:600;font-stretch:100%;font-size:var(--s-2);line-height:1.18;letter-spacing:-.01em;text-wrap:pretty}
+.says .w{transition:none}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,48px);margin-top:clamp(64px,10vh,120px)}
+.facts div{border-top:1px solid var(--rule);padding-top:18px}
+.facts dt{font-family:var(--f-display);font-weight:900;font-stretch:125%;font-size:var(--s-3);line-height:1;letter-spacing:-.02em}
+.facts dd{color:var(--ash);margin-top:12px;max-width:30ch}
+@media (max-width:820px){.manifest{grid-template-columns:1fr}.facts{grid-template-columns:1fr}}
+
+/* ---------- Sabores ---------- */
+#sabores{position:relative;overflow:hidden;background:var(--ink)}
+.track{display:flex;flex-direction:column}
+.panel{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;background:var(--pbg);color:var(--pfg);overflow:hidden}
+.topo{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.panel-in{position:relative;z-index:1;width:100%;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:center;gap:clamp(24px,4vw,64px);padding-block:clamp(96px,14vh,140px)}
+.tag{display:flex;align-items:center;gap:12px;font-size:var(--s--1);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--pacc)}
+.badge{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;border:1.5px solid currentColor;font-family:var(--f-serif);font-size:18px;letter-spacing:0;line-height:1}
+.fname{font-family:var(--f-serif);font-weight:400;font-size:clamp(3rem,1.6rem + 6.4vw,9.4rem);line-height:.9;text-transform:uppercase;letter-spacing:-.01em;margin-top:20px;color:var(--pname)}
+.taste{font-family:var(--f-display);font-weight:800;font-stretch:125%;text-transform:uppercase;letter-spacing:.04em;font-size:var(--s-1);margin-top:18px}
+.desc{margin-top:18px;max-width:38ch;color:var(--pdesc)}
+.pack{display:grid;place-items:center;perspective:1200px}
+.stick{width:min(100%,640px);height:auto;display:block;filter:drop-shadow(0 34px 34px rgba(0,0,0,.42));will-change:transform}
+.p-intro{--pbg:var(--ink);--pfg:var(--bone);--pacc:var(--ash)}
+.intro-in{position:relative;z-index:1;width:100%;padding-block:clamp(96px,14vh,140px)}
+.intro-in h2{font-family:var(--f-display);font-weight:900;font-stretch:125%;font-size:var(--s-4);line-height:.86;letter-spacing:-.025em;text-transform:uppercase;margin-top:18px;text-wrap:balance}
+.legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,48px);margin-top:clamp(40px,7vh,72px);max-width:900px}
+.legend div{border-top:1px solid var(--rule);padding-top:16px}
+.legend .badge{color:var(--bone);margin-bottom:14px}
+.legend h3{font-size:var(--s-1);font-weight:700}
+.legend p{color:var(--ash);margin-top:6px}
+.swipe{display:none;margin-top:40px}
+.p-steep{--pbg:#060504;--pfg:var(--bone);--pacc:var(--arrebol);--pname:var(--bone);--pdesc:rgba(241,237,231,.78)}
+.p-zoth{--pbg:#070912;--pfg:var(--bone);--pacc:#8aa0e6;--pname:var(--bone);--pdesc:rgba(241,237,231,.78)}
+.p-rocks{--pbg:var(--miel);--pfg:#fff6e6;--pacc:var(--miel-hi);--pname:var(--miel-line);--pdesc:#fff6e6}
+.p-oxygen{--pbg:var(--nieve);--pfg:var(--nieve-ink);--pacc:var(--nieve-ink);--pname:var(--nieve-ink);--pdesc:#2e2a27}
+@media (max-width:899px),(orientation:portrait){
+  .panel-in{grid-template-columns:1fr;gap:28px}
+  .pack{order:2;padding-inline:4%}
+}
+@media (min-width:900px) and (orientation:landscape){
+  .h-ready #sabores .track{flex-direction:row;width:max-content}
+  .h-ready #sabores .panel{width:100vw;flex:0 0 100vw;height:100vh;height:100svh;min-height:0}
+  .h-ready .swipe{display:flex}
+}
+
+/* ---------- Uso ---------- */
+#uso{background:var(--ink-2);padding-block:clamp(96px,15vh,180px);border-top:1px solid var(--rule)}
+.uso-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:end}
+.uso-head h2{font-family:var(--f-display);font-weight:900;font-stretch:118%;font-size:var(--s-3);line-height:.95;letter-spacing:-.02em;text-transform:uppercase;margin-top:16px;text-wrap:balance}
+.uso-head p{color:rgba(241,237,231,.8);max-width:46ch}
+.profile-box{margin-top:clamp(40px,7vh,80px)}
+.profile{display:block;width:100%;height:auto;overflow:visible}
+.profile .grid{stroke:var(--rule);stroke-width:1}
+.profile .tick{fill:var(--ash);font-family:var(--f-body);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.profile .axisname{fill:var(--ash);font-family:var(--f-body);font-size:13px;letter-spacing:.14em;font-weight:600}
+.profile .ridge{fill:none;stroke:var(--arrebol);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.profile .area{fill:url(#ridgeFill)}
+.profile .gel circle.ring{fill:var(--ink-2);stroke:var(--bone);stroke-width:2.5}
+.profile .gel circle.dot{fill:var(--arrebol)}
+.profile .gel text{fill:var(--bone);font-family:var(--f-display);font-weight:800;font-size:18px;font-stretch:112%}
+.profile .gel .stem{stroke:var(--bone);stroke-width:1.5;stroke-dasharray:3 4}
+.profile .gel{opacity:.28;transition:opacity .4s ease}
+.profile .gel[data-on="true"],.calm .profile .gel{opacity:1}
+.store{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,48px);margin-top:clamp(48px,8vh,88px)}
+.store div{border-top:1px solid var(--rule);padding-top:16px}
+.store h3{font-size:var(--s-1);font-weight:700;line-height:1.25}
+.store p{color:var(--ash);margin-top:8px;max-width:34ch}
+@media (max-width:820px){.uso-head{grid-template-columns:1fr}.store{grid-template-columns:1fr}}
+
+/* ---------- Taller ---------- */
+#taller{background:var(--ink);padding-block:clamp(96px,15vh,180px)}
+.taller-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px 48px}
+.taller-head h2{font-family:var(--f-serif);font-weight:400;font-size:var(--s-4);line-height:.9;text-transform:uppercase;margin-top:16px}
+.taller-head p{color:rgba(241,237,231,.8);max-width:40ch}
+.taller-head h2 span{display:block;font-family:var(--f-display);font-weight:800;font-stretch:118%;font-size:var(--s-1);letter-spacing:.14em;color:var(--arrebol);margin-top:16px;line-height:1.2}
+.tapa{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);align-items:center;gap:clamp(20px,4vw,64px);margin-top:clamp(40px,7vh,72px);
+  background:var(--void);border-radius:8px;overflow:hidden;padding-right:clamp(20px,4vw,64px)}
+.tapa-video{aspect-ratio:16/9;background:var(--void)}
+.tapa-video video{display:block;width:100%;height:100%;object-fit:cover;max-width:100%}
+.tapa-copy h3{font-family:var(--f-serif);font-weight:400;font-size:var(--s-3);line-height:.95;text-transform:uppercase;margin-top:14px;color:var(--bone)}
+.tapa-copy p:last-child{color:rgba(241,237,231,.8);margin-top:16px;max-width:34ch}
+.tapa-copy .eyebrow{color:var(--arrebol)}
+@media (max-width:820px){
+  .tapa{grid-template-columns:1fr;padding-right:0}
+  .tapa-copy{padding:0 20px 28px}
+}
+.gallery{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(10px,1.4vw,20px);margin-top:clamp(20px,3vh,32px)}
+.gallery figure{position:relative;overflow:hidden;border-radius:6px;background:var(--ink-2)}
+.gallery img,.gallery video{display:block;width:100%;height:100%;object-fit:cover;max-width:100%}
+.gallery figcaption{position:absolute;left:12px;right:12px;bottom:12px;font-size:var(--s--1);font-weight:600;color:var(--bone);text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.g-video{grid-column:1 / span 4;grid-row:span 2;aspect-ratio:9/16}
+.g-pair{grid-column:5 / span 8;aspect-ratio:16/9}
+.g-cerro{grid-column:5 / span 4;aspect-ratio:4/5}
+.g-back{grid-column:9 / span 4;aspect-ratio:4/5}
+.g-cerro img{object-position:50% 70%}
+@media (max-width:820px){
+  .gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g-video{grid-column:1 / span 2;grid-row:auto;aspect-ratio:9/14}
+  .g-pair{grid-column:1 / span 2}
+  .g-cerro,.g-back{grid-column:auto}
+}
+
+/* ---------- Pedir ---------- */
+#pedir{position:relative;background:var(--void);overflow:hidden;padding-block:clamp(110px,18vh,220px) clamp(40px,6vh,64px)}
+#pedir .topo{opacity:.9}
+.cta{position:relative;z-index:1}
+.cta h2{font-family:var(--f-display);font-weight:900;font-stretch:125%;font-size:var(--s-4);line-height:.86;letter-spacing:-.025em;text-transform:uppercase;text-wrap:balance;max-width:12ch}
+.cta p{color:rgba(241,237,231,.8);max-width:44ch;margin-top:24px}
+.cta .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.handle{font-size:var(--s--1);color:var(--ash);margin-top:14px;user-select:all}
+.cta .soon{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:8px 14px;border:1px solid var(--rule);border-radius:999px;font-size:var(--s--1);color:var(--bone);max-width:none}
+.cta .soon i{width:8px;height:8px;border-radius:50%;background:var(--miel-hi);flex:none;box-shadow:0 0 0 4px rgba(248,195,31,.18)}
+.coseal{position:relative;z-index:1;width:min(78vw,420px);margin-top:clamp(64px,10vh,110px);filter:drop-shadow(0 24px 30px rgba(0,0,0,.5))}
+.foot{position:relative;z-index:1;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;margin-top:clamp(56px,9vh,96px);padding-top:20px;border-top:1px solid var(--rule);font-size:var(--s--1);color:var(--ash);letter-spacing:.08em;text-transform:uppercase;padding-bottom:env(safe-area-inset-bottom,0px)}
+.foot b{color:var(--bone);font-weight:700}
+
+/* ---------- Movimiento reducido ---------- */
+.calm #subida{height:auto}
+.calm .stage{position:relative;height:100vh;height:100svh}
+.calm .b2,.calm .b3,.calm .b4{display:none}
+@media (prefers-reduced-motion:reduce){.cue i{animation:none}.btn{transition:none}}
+</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="packPath" d="M16 0 L984 0 L1000 12.5 L984 25 L1000 37.5 L984 50 L1000 62.5 L984 75 L1000 87.5 L984 100 L1000 112.5 L984 125 L1000 137.5 L984 150 L1000 162.5 L984 175 L1000 187.5 L984 200 L1000 212.5 L984 225 L1000 237.5 L984 250 L1000 262.5 L984 275 L1000 287.5 L984 300 L16 300 L0 287.5 L16 275 L0 262.5 L16 250 L0 237.5 L16 225 L0 212.5 L16 200 L0 187.5 L16 175 L0 162.5 L16 150 L0 137.5 L16 125 L0 112.5 L16 100 L0 87.5 L16 75 L0 62.5 L16 50 L0 37.5 L16 25 L0 12.5 L16 0Z"/>
+    <clipPath id="packClip"><use href="#packPath"/></clipPath>
+    <linearGradient id="foil" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e6e6e2"/><stop offset=".12" stop-color="#ffffff"/><stop offset=".32" stop-color="#cfcfca"/>
+      <stop offset=".56" stop-color="#f5f5f2"/><stop offset=".82" stop-color="#bdbdb7"/><stop offset="1" stop-color="#e2e2dd"/>
+    </linearGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".42" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".28"/><stop offset=".58" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="seal" width="9" height="300" patternUnits="userSpaceOnUse"><rect width="3" height="300" fill="#000" fill-opacity=".11"/></pattern>
+    <linearGradient id="ridgeFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e82838" stop-opacity=".32"/><stop offset="1" stop-color="#e82838" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="chip">
+    <a class="mark" href="#subida" aria-label="Arrebol, volver al inicio">Arrebol</a>
+    <span class="dplus" aria-hidden="true">D+ <b id="dplus">0</b> m</span>
+  </div>
+  <nav class="chip nav" aria-label="Secciones">
+    <a href="#sabores">Sabores</a>
+    <a href="#uso">Uso</a>
+    <a class="go" href="#pedir">Pedir</a>
+  </nav>
+</header>
+
+<main>
+  <!-- 1. Subida: video recorrido con el scroll -->
+  <section id="subida" aria-label="Arrebol, geles de montaña">
+    <div class="stage">
+      <div class="shade"></div>
+      <div class="hero-art">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="float">
+          <div class="tilt" id="tilt">
+            <img class="sticks" src="img/hero-sticks.webp" alt="Dos geles Arrebol One Zoth en formato stick" width="1400" height="1376" decoding="async" fetchpriority="high">
+            <span class="sheen" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="beat b1">
+        <h1 class="mark giant">Arrebol</h1>
+        <div class="row">
+          <p class="tagline">Geles energéticos de montaña, hechos en Chile.</p>
+          <p class="cue"><i></i>Baja para subir</p>
+        </div>
+      </div>
+
+      <div class="beat b2 side-r">
+        <p class="eyebrow">Formato 32 ml</p>
+        <h2>Un trago y a seguir subiendo.</h2>
+        <p>Cabe en cualquier bolsillo del chaleco y se toma de una vez, sin cortar el paso.</p>
+      </div>
+
+      <div class="beat b4 side-r">
+        <p class="eyebrow">Arrebol · The Gel &amp; Co.</p>
+        <h2>Combustible para el que sube.</h2>
+        <a class="btn" href="#sabores">Ver los sabores
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Manifiesto -->
+  <section id="hecho" class="wrap">
+    <div class="manifest">
+      <p class="entry"><b>arrebol</b><i>sustantivo masculino.</i> Color rojo de las nubes cuando las iluminan los rayos del sol.</p>
+      <p class="says" id="says">Geles hechos en Chile para quienes corren la montaña. Carbohidratos que entran fácil, sodio y potasio para reponer lo que se va en el sudor, y sabores que todavía dan ganas de tomar en la tercera hora.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>32&nbsp;ml</dt><dd>por gel, en un stick plano y fácil de abrir en movimiento.</dd></div>
+      <div><dt>R&nbsp;/&nbsp;T</dt><dd>dos líneas: Race para competir y Training para entrenar.</dd></div>
+      <div><dt>1&nbsp;año</dt><dd>en el congelador, o 3 meses refrigerado. Se recomienda congelar.</dd></div>
+    </dl>
+  </section>
+
+  <!-- 3. Sabores -->
+  <section id="sabores" aria-label="Sabores">
+    <div class="track">
+      <article class="panel p-intro">
+        <canvas class="topo" data-color="#f1ede7" data-alpha=".13" data-seed="7" data-fade="right"></canvas>
+        <div class="intro-in wrap">
+          <p class="eyebrow">Cuatro sabores</p>
+          <h2>Elige tu tramo.</h2>
+          <div class="legend">
+            <div><span class="badge">R</span><h3>Race</h3><p>Steep Path y One Zoth, para el día de carrera.</p></div>
+            <div><span class="badge">T</span><h3>Training</h3><p>Loose Rocks y Less Oxygen, para los entrenamientos.</p></div>
+          </div>
+          <p class="cue swipe"><i></i>Sigue bajando para recorrerlos</p>
+        </div>
+      </article>
+
+      <article class="panel p-steep" aria-label="Steep Path">
+        <canvas class="topo" data-color="#e82838" data-alpha=".85" data-seed="11"></canvas>
+        <div class="panel-in wrap">
+          <div class="copy">
+            <p class="tag"><span class="badge">R</span>Línea Race</p>
+            <h3 class="fname">Steep Path</h3>
+            <p class="taste">Sabor berries</p>
+            <p class="desc">Arándano y manzana, con maltodextrina y fructosa. El de las subidas largas el día de carrera.</p>
+          </div>
+          <figure class="pack">
+            <svg class="stick" viewBox="0 0 1000 300" role="img" aria-label="Gel Steep Path en formato stick">
+              <use href="#packPath" fill="url(#foil)"/>
+              <g clip-path="url(#packClip)"><rect width="96" height="300" fill="url(#seal)"/><rect x="904" width="96" height="300" fill="url(#seal)"/></g>
+              <image href="img/label-steep-path.webp" x="120" y="15" width="760" height="270"/>
+              <rect width="1000" height="300" fill="url(#gloss)" clip-path="url(#packClip)"/>
+            </svg>
+          </figure>
+        </div>
+      </article>
+
+      <article class="panel p-zoth" aria-label="One Zoth">
+        <canvas class="topo" data-color="#5068b8" data-alpha=".9" data-seed="23"></canvas>
+        <div class="panel-in wrap">
+          <div class="copy">
+            <p class="tag"><span class="badge">R</span>Línea Race</p>
+            <h3 class="fname">One Zoth</h3>
+            <p class="taste">Sabor cool blue</p>
+            <p class="desc">Sabor a bebida isotónica azul, fresco y con un toque cítrico. Para cuando el cuerpo ya no quiere nada dulce.</p>
+          </div>
+          <figure class="pack">
+            <svg class="stick" viewBox="0 0 1000 300" role="img" aria-label="Gel One Zoth en formato stick">
+              <use href="#packPath" fill="url(#foil)"/>
+              <g clip-path="url(#packClip)"><rect width="96" height="300" fill="url(#seal)"/><rect x="904" width="96" height="300" fill="url(#seal)"/></g>
+              <image href="img/label-one-zoth.webp" x="120" y="15" width="760" height="270"/>
+              <rect width="1000" height="300" fill="url(#gloss)" clip-path="url(#packClip)"/>
+            </svg>
+          </figure>
+        </div>
+      </article>
+
+      <article class="panel p-rocks" aria-label="Loose Rocks">
+        <canvas class="topo" data-color="#f0d3b4" data-alpha=".55" data-seed="37"></canvas>
+        <div class="panel-in wrap">
+          <div class="copy">
+            <p class="tag"><span class="badge">T</span>Línea Training</p>
+            <h3 class="fname">Loose Rocks</h3>
+            <p class="taste">Sabor miel</p>
+            <p class="desc">Miel y limón. Para los fondos de fin de semana, cuando hay que probar el ritmo de geles.</p>
+          </div>
+          <figure class="pack">
+            <svg class="stick" viewBox="0 0 1000 300" role="img" aria-label="Gel Loose Rocks en formato stick">
+              <use href="#packPath" fill="url(#foil)"/>
+              <g clip-path="url(#packClip)"><rect width="96" height="300" fill="url(#seal)"/><rect x="904" width="96" height="300" fill="url(#seal)"/></g>
+              <image href="img/label-loose-rocks.webp" x="120" y="15" width="760" height="270"/>
+              <rect width="1000" height="300" fill="url(#gloss)" clip-path="url(#packClip)"/>
+            </svg>
+          </figure>
+        </div>
+      </article>
+
+      <article class="panel p-oxygen" aria-label="Less Oxygen">
+        <canvas class="topo" data-color="#0b0908" data-alpha=".38" data-seed="51"></canvas>
+        <div class="panel-in wrap">
+          <div class="copy">
+            <p class="tag"><span class="badge">T</span>Línea Training</p>
+            <h3 class="fname">Less Oxygen</h3>
+            <p class="taste">Sabor berries</p>
+            <p class="desc">Arándano y manzana, sin fructosa. Pensado para entrenar el estómago antes de una carrera larga.</p>
+          </div>
+          <figure class="pack">
+            <svg class="stick" viewBox="0 0 1000 300" role="img" aria-label="Gel Less Oxygen en formato stick">
+              <use href="#packPath" fill="url(#foil)"/>
+              <g clip-path="url(#packClip)"><rect width="96" height="300" fill="url(#seal)"/><rect x="904" width="96" height="300" fill="url(#seal)"/></g>
+              <image href="img/label-less-oxygen.webp" x="120" y="15" width="760" height="270"/>
+              <rect width="1000" height="300" fill="url(#gloss)" clip-path="url(#packClip)"/>
+            </svg>
+          </figure>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 4. Uso -->
+  <section id="uso" class="wrap">
+    <div class="uso-head">
+      <div>
+        <p class="eyebrow">Cómo usarlo</p>
+        <h2>Un gel cada 20 minutos.</h2>
+      </div>
+      <p>Tres por hora, siempre con unos sorbos de agua. Prueba el ritmo con la línea T en tus fondos antes de usarlo en carrera.</p>
+    </div>
+
+    <div class="profile-box">
+      <svg class="profile" id="profile" viewBox="0 0 1200 380" role="img" aria-label="Perfil de una hora de carrera con un gel a los 20, 40 y 60 minutos">
+        <g class="grid" id="pgrid"></g>
+        <path class="area" id="area" d=""/>
+        <path class="ridge" id="ridge" d="" pathLength="1"/>
+        <g id="gels"></g>
+        <g id="pticks"></g>
+      </svg>
+    </div>
+
+    <div class="store">
+      <div><h3>Con agua, siempre.</h3><p>Unos sorbos después de cada gel ayudan a que pase mejor.</p></div>
+      <div><h3>Congelado dura 1 año.</h3><p>En el refrigerador, 3 meses. Se recomienda guardarlos en el congelador.</p></div>
+      <div><h3>Entrena con la T.</h3><p>Usa Loose Rocks o Less Oxygen en los entrenamientos y deja la R para el día de carrera.</p></div>
+    </div>
+  </section>
+
+  <!-- 5. Taller -->
+  <section id="taller" class="wrap">
+    <div class="taller-head">
+      <div>
+        <p class="eyebrow">Taller</p>
+        <h2>Hecho en Chile <span>para trail runners</span></h2>
+      </div>
+      <p>Así se ven nuestros geles, sin filtros.</p>
+    </div>
+    <div class="tapa">
+      <figure class="tapa-video">
+        <video id="tapaVideo" src="v/tapa.mp4" poster="img/tapa-poster.jpg" muted loop playsinline preload="metadata" aria-label="Sachet rojo Arrebol con tapa girando sobre fondo negro"></video>
+      </figure>
+      <div class="tapa-copy">
+        <p class="eyebrow">Formato con tapa</p>
+        <h3>Sachet rojo</h3>
+        <p>El gel en sachet con tapa rosca: se toma de a poco y se vuelve a cerrar.</p>
+      </div>
+    </div>
+    <div class="gallery">
+      <figure class="g-video">
+        <video id="tallerVideo" src="v/taller.mp4" poster="img/taller-poster.jpg" muted loop playsinline preload="metadata" aria-label="Detrás de cámara de la sesión de fotos"></video>
+        <figcaption>Detrás de cámara de la sesión de fotos</figcaption>
+      </figure>
+      <figure class="g-pair"><img src="img/sticks-pair.webp" alt="Dos geles One Zoth en formato stick sobre fondo blanco" loading="lazy" decoding="async"><figcaption>One Zoth, formato stick</figcaption></figure>
+      <figure class="g-cerro"><img src="img/cerro.webp" alt="Sachet Arrebol con tapa sobre una roca en el cerro" loading="lazy" decoding="async"><figcaption>Formato con tapa, en el cerro</figcaption></figure>
+      <figure class="g-back"><img src="img/sticks-back.webp" alt="Frente y reverso de los sticks One Zoth" loading="lazy" decoding="async"><figcaption>Frente y reverso</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 6. Pedir -->
+  <section id="pedir" class="wrap">
+    <canvas class="topo" data-color="#e82838" data-alpha=".5" data-seed="91" data-fade="left"></canvas>
+    <div class="cta">
+      <p class="eyebrow">Pedidos</p>
+      <h2 style="margin-top:16px">Pide los tuyos.</h2>
+      <p>Por ahora los pedidos son por Instagram: escríbenos un mensaje directo con el sabor y la cantidad que quieres.</p>
+      <p class="soon"><i aria-hidden="true"></i>Estamos armando la tienda online. Muy pronto podrás pedir directo desde aquí.</p>
+      <div class="actions">
+        <a class="btn" href="https://www.instagram.com/arrebol.fuel/" target="_blank" rel="noopener">Pedir por Instagram
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        </a>
+      </div>
+      <p class="handle">@arrebol.fuel</p>
+    </div>
+    <img class="coseal" src="img/label-the-gel-and-co.webp" alt="Arrebol, The Gel &amp; Co." loading="lazy" decoding="async">
+    <footer class="foot">
+      <span><b>Arrebol</b> · The Gel &amp; Co.</span>
+      <span>Alimento para deportistas</span>
+      <span>Patagonia · 51°S</span>
+    </footer>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement;
+  const hasGsap = !!(window.gsap && window.ScrollTrigger);
+
+  /* ---------------- Portada: los sticks giran y se desplazan con el scroll ---------------- */
+  const tilt = document.getElementById('tilt');
+  const art = document.querySelector('.hero-art');
+  let target = 0, cur = 0;            // progreso del hero, 0..1
+  let needsDraw = true;
+  const ease = t => t * t * (3 - 2 * t);
+  const span = (p, a, b) => ease(Math.min(1, Math.max(0, (p - a) / (b - a))));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  function setHero(p) {
+    const wide = innerWidth / innerHeight >= 1.15;
+    const slide = span(p, .2, .42);   // en pantallas anchas se corre a la izquierda para dar espacio al texto
+    const turn = span(p, 0, 1);
+    const x = wide ? lerp(0, -21, slide) : 0;                 // vw
+    const y = wide ? lerp(-3, 1, turn) : lerp(0, -4, turn);   // vh
+    const s = lerp(.9, 1.1, turn);
+    const rz = lerp(-6, 9, turn), ry = lerp(-20, 22, turn), rx = lerp(10, -8, turn);
+    tilt.style.transform = `perspective(1400px) translate3d(${x.toFixed(2)}vw, ${y.toFixed(2)}vh, 0) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) rotateZ(${rz.toFixed(2)}deg) scale(${s.toFixed(3)})`;
+    tilt.style.setProperty('--sheen', (135 - 170 * turn).toFixed(1) + '%');
+    art.style.setProperty('--gx', x.toFixed(2) + 'vw');
+  }
+
+  /* ---------------- Textos del hero ---------------- */
+  const beats = [
+    [document.querySelector('.b1'), -1, -1, .18, .26],
+    [document.querySelector('.b2'), .32, .38, .56, .63],
+    [document.querySelector('.b4'), .70, .77, 2, 3]
+  ];
+  function band(p, a, b, c, d) {
+    if (p <= a || p >= d) return 0;
+    if (p < b) return (p - a) / (b - a);
+    if (p <= c) return 1;
+    return 1 - (p - c) / (d - c);
+  }
+  function setBeats(p) {
+    for (const [el, a, b, c, d] of beats) {
+      const o = band(p, a, b, c, d);
+      el.style.opacity = o.toFixed(3);
+      el.style.transform = 'translateY(' + ((1 - o) * 26).toFixed(1) + 'px)';
+      el.style.pointerEvents = o > .5 ? 'auto' : 'none';
+      el.inert = o < .05;
+    }
+  }
+
+  /* ---------------- Curvas de nivel generativas ---------------- */
+  function rng(seed) { let t = seed >>> 0; return () => { t += 0x6D2B79F5; let r = Math.imul(t ^ t >>> 15, 1 | t); r ^= r + Math.imul(r ^ r >>> 7, 61 | r); return ((r ^ r >>> 14) >>> 0) / 4294967296; }; }
+  function noise2(seed) {
+    const r = rng(seed), G = 64, g = new Float32Array(G * G);
+    for (let i = 0; i < g.length; i++) g[i] = r();
+    const sm = t => t * t * (3 - 2 * t);
+    const at = (x, y) => g[((y % G + G) % G) * G + ((x % G + G) % G)];
+    return (x, y) => {
+      const xi = Math.floor(x), yi = Math.floor(y), xf = sm(x - xi), yf = sm(y - yi);
+      const a = at(xi, yi), b = at(xi + 1, yi), c = at(xi, yi + 1), d = at(xi + 1, yi + 1);
+      return a + (b - a) * xf + (c - a) * yf + (a - b - c + d) * xf * yf;
+    };
+  }
+  function drawTopo(cv) {
+    const w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h) return;
+    const k = Math.min(window.devicePixelRatio || 1, 1.5);
+    cv.width = Math.round(w * k); cv.height = Math.round(h * k);
+    const c = cv.getContext('2d');
+    c.setTransform(k, 0, 0, k, 0, 0);
+    c.clearRect(0, 0, w, h);
+    const seed = +cv.dataset.seed || 1, n = noise2(seed), n2 = noise2(seed * 7 + 3);
+    const scale = Math.max(w, h) / 3.2;
+    const f = (x, y) => .62 * n(x / scale, y / scale) + .28 * n(x / scale * 2.1 + 9, y / scale * 2.1) + .10 * n2(x / scale * 4.3, y / scale * 4.3);
+    const step = w < 700 ? 6 : 7;
+    const cols = Math.ceil(w / step) + 1, rows = Math.ceil(h / step) + 1;
+    const v = new Float32Array(cols * rows);
+    for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) v[j * cols + i] = f(i * step, j * step);
+    c.strokeStyle = cv.dataset.color || '#fff';
+    c.globalAlpha = +cv.dataset.alpha || .5;
+    c.lineWidth = 1.1;
+    c.lineJoin = 'round';
+    c.beginPath();
+    for (let L = .12; L < .9; L += .042) {
+      for (let j = 0; j < rows - 1; j++) for (let i = 0; i < cols - 1; i++) {
+        const a = v[j * cols + i], b = v[j * cols + i + 1], d = v[(j + 1) * cols + i], e = v[(j + 1) * cols + i + 1];
+        const idx = (a > L) | (b > L) << 1 | (e > L) << 2 | (d > L) << 3;
+        if (idx === 0 || idx === 15) continue;
+        const x = i * step, y = j * step;
+        const T = [x + step * (L - a) / (b - a), y];
+        const R = [x + step, y + step * (L - b) / (e - b)];
+        const B = [x + step * (L - d) / (e - d), y + step];
+        const Lf = [x, y + step * (L - a) / (d - a)];
+        const seg = (p, q) => { c.moveTo(p[0], p[1]); c.lineTo(q[0], q[1]); };
+        switch (idx) {
+          case 1: case 14: seg(Lf, T); break;
+          case 2: case 13: seg(T, R); break;
+          case 3: case 12: seg(Lf, R); break;
+          case 4: case 11: seg(R, B); break;
+          case 5: seg(Lf, T); seg(R, B); break;
+          case 6: case 9: seg(T, B); break;
+          case 7: case 8: seg(Lf, B); break;
+          case 10: seg(T, R); seg(Lf, B); break;
+        }
+      }
+    }
+    c.stroke();
+    // fundido: deja más limpia la zona del texto
+    const fade = cv.dataset.fade || 'left';
+    c.globalAlpha = 1;
+    c.globalCompositeOperation = 'destination-in';
+    const wideScreen = w > h;
+    const gr = wideScreen
+      ? c.createLinearGradient(fade === 'right' ? w : 0, 0, fade === 'right' ? 0 : w, 0)
+      : c.createLinearGradient(0, 0, 0, h);
+    gr.addColorStop(0, 'rgba(0,0,0,.22)');
+    gr.addColorStop(.45, 'rgba(0,0,0,.5)');
+    gr.addColorStop(1, 'rgba(0,0,0,1)');
+    c.fillStyle = gr;
+    c.fillRect(0, 0, w, h);
+    c.globalCompositeOperation = 'source-over';
+  }
+  const topos = [...document.querySelectorAll('canvas.topo')];
+  const drawTopos = () => topos.forEach(drawTopo);
+
+  /* ---------------- Perfil de altimetría (uso) ----------------
+     El SVG se arma en píxeles reales del contenedor, así el texto mantiene su tamaño en el celular. */
+  const NS = 'http://www.w3.org/2000/svg';
+  const profile = document.getElementById('profile');
+  const ridge = document.getElementById('ridge');
+  const area = document.getElementById('area');
+  const gels = document.getElementById('gels');
+  const pgrid = document.getElementById('pgrid');
+  const pticks = document.getElementById('pticks');
+  // minuto, altura relativa (0 = abajo, 1 = arriba)
+  const PROFILE = [[0,.08],[5,.2],[10,.14],[15,.32],[20,.44],[25,.38],[30,.6],[35,.54],[40,.72],[45,.86],[50,.78],[55,.95],[60,1]];
+  const GELS = [[20, 'Gel 1'], [40, 'Gel 2'], [60, 'Gel 3']];
+  GELS.forEach(([t, label]) => {
+    const g = document.createElementNS(NS, 'g');
+    g.setAttribute('class', 'gel');
+    g.innerHTML = `<line class="stem"/><circle class="ring" r="11"/><circle class="dot" r="5"/><text>${label}</text>`;
+    gels.appendChild(g);
+  });
+  function layoutProfile() {
+    const W = Math.max(300, Math.round(profile.parentElement.clientWidth));
+    const H = W < 640 ? 300 : 380;
+    profile.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const padL = 6, padR = 6, top = 70, base = H - 46;
+    const X = t => padL + t * ((W - padL - padR) / 60);
+    const Y = e => base - e * (base - top);
+    const pts = PROFILE.map(([t, e]) => [X(t), Y(e)]);
+    const d = 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L');
+    ridge.setAttribute('d', d);
+    area.setAttribute('d', d + ` L${X(60)} ${base} L${X(0)} ${base} Z`);
+    pgrid.innerHTML = `<line x1="${X(0)}" y1="${base}" x2="${X(60)}" y2="${base}"/>` +
+      [20, 40, 60].map(t => `<line x1="${X(t)}" y1="${top - 30}" x2="${X(t)}" y2="${base}"/>`).join('');
+    pticks.innerHTML = [[0, '0:00', 'start'], [20, '0:20', 'middle'], [40, '0:40', 'middle'], [60, '1:00', 'end']]
+      .map(([t, s, a]) => `<text class="tick" x="${X(t)}" y="${base + 30}" text-anchor="${a}">${s}</text>`).join('') +
+      `<text class="axisname" x="${X(0)}" y="${top - 46}">TIEMPO DE CARRERA</text>`;
+    [...gels.children].forEach((g, k) => {
+      const t = GELS[k][0];
+      const [x, y] = pts[PROFILE.findIndex(p => p[0] === t)];
+      const ty = y - 40;
+      const st = g.querySelector('.stem');
+      st.setAttribute('x1', x); st.setAttribute('x2', x); st.setAttribute('y1', y - 14); st.setAttribute('y2', ty + 8);
+      g.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', x); c.setAttribute('cy', y); });
+      const tx = g.querySelector('text');
+      tx.setAttribute('x', t === 60 ? x - 2 : x);
+      tx.setAttribute('y', ty);
+      tx.setAttribute('text-anchor', t === 60 ? 'end' : 'middle');
+    });
+  }
+  layoutProfile();
+
+  /* ---------------- El logo gigante siempre cabe en una línea ---------------- */
+  const giant = document.querySelector('.giant');
+  function fitGiant() {
+    giant.style.fontSize = '';
+    const over = giant.scrollWidth / giant.clientWidth;
+    if (over > 1) giant.style.fontSize = (parseFloat(getComputedStyle(giant).fontSize) / over * .98).toFixed(1) + 'px';
+  }
+  fitGiant();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitGiant);
+
+  /* ---------------- Contador de desnivel ---------------- */
+  const dplus = document.getElementById('dplus');
+  const fmt = new Intl.NumberFormat('es-CL');
+  let lastD = -1;
+  function updateDplus() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const d = max > 0 ? Math.round(Math.min(1, Math.max(0, window.scrollY / max)) * 1000) : 0;
+    if (d !== lastD) { dplus.textContent = fmt.format(d); lastD = d; }
+  }
+
+  /* ---------------- Video del taller: solo corre cuando se ve ---------------- */
+  if ('IntersectionObserver' in window && !RM) {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) e.target.play().catch(() => {}); else e.target.pause();
+    }), { threshold: .25 });
+    ['tallerVideo', 'tapaVideo'].forEach(id => { const v = document.getElementById(id); if (v) io.observe(v); });
+  }
+
+  /* ---------------- Arranque ---------------- */
+  drawTopos();
+  let rT;
+  window.addEventListener('resize', () => {
+    needsDraw = true;
+    clearTimeout(rT);
+    rT = setTimeout(() => { drawTopos(); layoutProfile(); fitGiant(); }, 180);
+  });
+
+  if (RM || !hasGsap) {
+    root.classList.add('calm');
+    setBeats(0);
+    const loop = () => { if (needsDraw) { setHero(RM ? .45 : 0); needsDraw = false; } updateDplus(); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Scroll suave en escritorio (en pantallas táctiles se mantiene el nativo)
+  let lenis = null;
+  if (window.Lenis) {
+    try {
+      lenis = new Lenis({ lerp: .1, smoothWheel: true });
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(t => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+    } catch (e) { lenis = null; }
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    const el = id.length > 1 && document.querySelector(id);
+    if (!el) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.4 }); else el.scrollIntoView({ behavior: 'smooth' });
+  }));
+
+  // Portada: progreso del scroll -> movimiento de los sticks + textos
+  ScrollTrigger.create({
+    trigger: '#subida', start: 'top top', end: 'bottom bottom',
+    onUpdate: s => { target = s.progress; }
+  });
+  setBeats(0);
+  gsap.ticker.add(() => {
+    const prev = cur;
+    cur += (target - cur) * .22;
+    if (Math.abs(target - cur) < .0002) cur = target;
+    if (cur !== prev || needsDraw) { setHero(cur); setBeats(cur); needsDraw = false; }
+    updateDplus();
+  });
+
+  // Manifiesto: las palabras se encienden al pasar
+  const says = document.getElementById('says');
+  says.innerHTML = says.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
+  const words = says.querySelectorAll('.w');
+  gsap.fromTo(words, { opacity: .24 }, {
+    opacity: 1, ease: 'none', stagger: .06,
+    scrollTrigger: { trigger: says, start: 'top 82%', end: 'bottom 48%', scrub: true }
+  });
+
+  // Sabores: horizontal en pantallas anchas, vertical en celular
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 900px) and (orientation: landscape)', () => {
+    root.classList.add('h-ready');
+    const track = document.querySelector('#sabores .track');
+    const dist = () => track.scrollWidth - window.innerWidth;
+    const h = gsap.to(track, {
+      x: () => -dist(), ease: 'none',
+      scrollTrigger: { trigger: '#sabores', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: .6, anticipatePin: 1, invalidateOnRefresh: true }
+    });
+    gsap.utils.toArray('#sabores .panel .pack').forEach(p => {
+      gsap.fromTo(p.querySelector('.stick'), { rotate: -16, rotateY: -22, y: 40, scale: .9 }, {
+        rotate: 9, rotateY: 14, y: -30, scale: 1, ease: 'none',
+        scrollTrigger: { trigger: p.closest('.panel'), containerAnimation: h, start: 'left right', end: 'right left', scrub: true }
+      });
+      gsap.fromTo(p.closest('.panel').querySelector('.fname'), { xPercent: 14 }, {
+        xPercent: -6, ease: 'none',
+        scrollTrigger: { trigger: p.closest('.panel'), containerAnimation: h, start: 'left right', end: 'right left', scrub: true }
+      });
+    });
+    requestAnimationFrame(drawTopos);
+    return () => { root.classList.remove('h-ready'); requestAnimationFrame(drawTopos); };
+  });
+  mm.add('(max-width: 899px), (orientation: portrait)', () => {
+    gsap.utils.toArray('#sabores .panel .pack').forEach(p => {
+      gsap.fromTo(p.querySelector('.stick'), { rotate: -14, y: 40 }, {
+        rotate: 8, y: -30, ease: 'none',
+        scrollTrigger: { trigger: p.closest('.panel'), start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+    });
+  });
+
+  // Perfil: la línea se dibuja con el scroll y cada gel aparece al llegar
+  ridge.style.strokeDasharray = 1;
+  const gelEls = [...gels.children];
+  gsap.fromTo(ridge, { strokeDashoffset: 1 }, {
+    strokeDashoffset: 0, ease: 'none',
+    scrollTrigger: {
+      trigger: '#profile', start: 'top 80%', end: 'bottom 45%', scrub: true,
+      onUpdate: s => {
+        const reached = s.progress * 60;
+        gelEls.forEach((g, i) => {
+          const on = reached >= (i + 1) * 20 - .5;
+          if (g.dataset.on !== String(on)) g.dataset.on = String(on);
+        });
+        area.style.opacity = (.25 + .75 * s.progress).toFixed(3);
+      }
+    }
+  });
+
+  // Fotos del taller: leve paralaje
+  gsap.utils.toArray('.gallery img').forEach(img => {
+    gsap.fromTo(img, { scale: 1.12, yPercent: -4 }, { yPercent: 4, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
+  });
+
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
+})();
+</script>
+
+</body>
+</html>
